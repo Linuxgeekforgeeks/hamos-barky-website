@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zanzibar Hamos Bakery - Products</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #fff;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #00a082;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #008068;
+    }
+
+    /* Header */
+    header {
+      background-color: #ffc244;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      margin: auto;
+      min-height: 70px;
+      z-index: 100;
+      
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo img {
+      max-width: 130px;
+      height: auto;
+      display: block;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .cart-icon {
+      position: relative;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background-color: #00a082;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+
+    /* Carousel */
+    .carousel {
+      position: relative;
+      max-width: 100%;
+      margin-bottom: 40px;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .carousel-images {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .carousel-images img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      z-index: 10;
+    }
+
+    .carousel-btn.prev {
+      left: 10px;
+    }
+
+    .carousel-btn.next {
+      right: 10px;
+    }
+
+    /* Product Section */
+    .products {
+      padding: 50px 0;
+    }
+
+    .products h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 32px;
+      color: #000;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: bolder;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .product-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .product-card.scrolled {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .product-image {
+      width: 150px;
+      height: 150px;
+      margin: 15px auto;
+      background-position: center;
+      background-size: cover;
+      border: 3px solid #ffc244;
+      border-radius: 59% 41% 56% 44% / 30% 30% 70% 70%;
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .product-description {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .product-price {
+      font-weight: bold;
+      color: #00a082;
+      margin-bottom: 15px;
+    }
+
+    /* Cart Sidebar */
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 380px;
+      height: 100vh;
+      background-color: white;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      transition: right 0.3s ease;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .cart-sidebar.open {
+      right: 0;
+    }
+
+    .cart-header {
+      background-color: #00a082;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .close-cart {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .cart-items {
+      padding: 1rem;
+    }
+
+    .cart-item {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      padding: 1rem 0;
+      position: relative;
+    }
+
+    .cart-item-image {
+      width: 80px;
+      height: 80px;
+      background-position: center;
+      background-size: cover;
+      border-radius: 5px;
+      margin-right: 1rem;
+    }
+
+    .cart-item-details {
+      flex-grow: 1;
+    }
+
+    .cart-item-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .cart-item-price {
+      color: #00a082;
+      margin-bottom: 0.5rem;
+    }
+
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+    }
+
+    .quantity-btn {
+      width: 25px;
+      height: 25px;
+      background-color: #e8f5f3;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .quantity-input {
+      width: 40px;
+      text-align: center;
+      margin: 0 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      padding: 0.2rem;
+    }
+
+    .remove-btn {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .remove-btn:hover {
+      background-color: #c9302c;
+    }
+
+    .cart-total {
+      padding: 1rem;
+      border-top: 2px solid #eee;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .checkout-btn {
+      width: 90%;
+      margin: 1rem auto;
+      display: block;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+
+    .overlay.open {
+      display: block;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .logo img {
+        max-width: 120px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .logo img {
+        max-width: 100px;
+      }
+
+      .carousel-images img {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="#"><img src="./hti-logo.webp" alt="Hamos Bakery Logo"></a>
+      </div>
+      <div class="header-actions">
+        <div class="cart-icon" id="cartIcon">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="products">
+    <div class="container">
+      <h2>Our Fresh Baked Products</h2>
+      <div class="carousel">
+        <button class="carousel-btn prev" id="prevBtn">❮</button>
+        <div class="carousel-images" id="carouselImages">
+          <img src="./assets/images/bakery-hero.jpg" alt="Bakery Item 1">
+          <img src="/assets/images/boflo 1.jpg" alt="Bakery Item 2">
+          <img src="/assets/images/boflo 2.jpg" alt="Bakery Item 3">
+          <img src="/assets/images/boflo 3.jpg" alt="Bakery Item 4">
+        </div>
+        <button class="carousel-btn next" id="nextBtn">❯</button>
+      </div>
+      <div class="product-grid" id="productGrid">
+        <!-- Products will be loaded here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button class="close-cart" id="closeCart">×</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <!-- Cart items will be added here -->
+    </div>
+    <div class="cart-total">
+      <span>Total:</span>
+      <span id="cartTotal">TSh 0</span>
+    </div>
+    <button class="checkout-btn btn">Checkout</button>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <script>
+    // Sample products data
+    const products = [
+      { id: 1, name: 'Boflo (Swahili Bread)', description: 'Fresh baked traditional Swahili bread, soft and fluffy.', price: 1500, image: 'https://cdn.pixabay.com/photo/2018/06/12/22/29/bread-3471667_640.jpg' },
+      { id: 2, name: 'Chapati', description: 'Thin, round flatbread made with whole wheat flour.', price: 800, image: 'https://cdn.pixabay.com/photo/2016/05/26/16/27/cinnamon-rolls-1417494_640.jpg' },
+      { id: 3, name: 'Mandazi', description: 'Sweet, triangular East African donuts with a hint of cardamom.', price: 500, image: 'https://cdn.pixabay.com/photo/2019/03/10/16/22/bread-4046506_640.jpg' },
+      { id: 4, name: 'Mkate wa Sinia', description: 'Soft, spongy bread baked in a special pan.', price: 2000, image: 'https://cdn.pixabay.com/photo/2019/03/24/14/23/bread-4077812_640.jpg' },
+      { id: 5, name: 'Coconut Bread', description: 'Sweet bread with rich coconut flavor, perfect with tea.', price: 1800, image: 'https://cdn.pixabay.com/photo/2016/10/22/17/10/bread-1761197_640.jpg' },
+      { id: 6, name: 'Vitumbua', description: 'Sweet rice pancake with coconut, a popular Zanzibar breakfast.', price: 200, image: 'https://cdn.pixabay.com/photo/2021/01/14/13/10/bread-5916804_640.jpg' }
+    ];
+
+    // Initialize cart from localStorage or empty array
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Save cart to localStorage
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // Load Products
+    function loadProducts() {
+      const productGrid = document.getElementById('productGrid');
+      products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.innerHTML = `
+          <div class="product-image" style="background-image: url(${product.image})"></div>
+          <div class="product-info">
+            <h3 class="product-title">${product.name}</h3>
+            <p class="product-description">${product.description}</p>
+            <p class="product-price">TSh ${product.price.toLocaleString()}</p>
+            <button class="btn add-to-cart" data-id="${product.id}">Add to Cart</button>
+          </div>
+        `;
+        productGrid.appendChild(productCard);
+      });
+
+      document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+          addToCart(parseInt(this.getAttribute('data-id')));
+        });
+      });
+    }
+
+    // Add to Cart
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      const existingItem = cart.find(item => item.id === productId);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 });
+      }
+      updateCartUI();
+      saveCart(); // Save to localStorage
+      openCart();
+    }
+
+    // Remove from Cart
+    function removeFromCart(id) {
+      cart = cart.filter(item => item.id !== id);
+      updateCartUI();
+      saveCart(); // Save to localStorage
+    }
+
+    // Update Cart UI
+    function updateCartUI() {
+      const cartItems = document.getElementById('cartItems');
+      const cartCount = document.getElementById('cartCount');
+      const cartTotal = document.getElementById('cartTotal');
+      cartItems.innerHTML = '';
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p style="text-align: center; color: #666;">No Items in Cart</p>';
+        cartCount.textContent = '0';
+        cartTotal.textContent = 'TSh 0';
+        return;
+      }
+
+      let total = 0;
+      let itemCount = 0;
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        itemCount += item.quantity;
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        cartItem.innerHTML = `
+          <div class="cart-item-image" style="background-image: url(${item.image})"></div>
+          <div class="cart-item-details">
+            <div class="cart-item-title">${item.name}</div>
+            <div class="cart-item-price">TSh ${item.price.toLocaleString()}</div>
+            <div class="cart-item-quantity">
+              <button class="quantity-btn decrease" data-id="${item.id}">-</button>
+              <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-id="${item.id}">
+              <button class="quantity-btn increase" data-id="${item.id}">+</button>
+            </div>
+          </div>
+          <button class="remove-btn" data-id="${item.id}">Remove</button>
+        `;
+        cartItems.appendChild(cartItem);
+      });
+
+      cartCount.textContent = itemCount;
+      cartTotal.textContent = `TSh ${total.toLocaleString()}`;
+      document.querySelectorAll('.decrease').forEach(button => {
+        button.addEventListener('click', () => decreaseQuantity(parseInt(button.getAttribute('data-id'))));
+      });
+      document.querySelectorAll('.increase').forEach(button => {
+        button.addEventListener('click', () => increaseQuantity(parseInt(button.getAttribute('data-id'))));
+      });
+      document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('change', () => updateQuantity(parseInt(input.getAttribute('data-id')), parseInt(input.value)));
+      });
+      document.querySelectorAll('.remove-btn').forEach(button => {
+        button.addEventListener('click', () => removeFromCart(parseInt(button.getAttribute('data-id'))));
+      });
+    }
+
+    // Quantity Controls
+    function increaseQuantity(id) {
+      const item = cart.find(item => item.id === id);
+      if (item) item.quantity += 1;
+      updateCartUI();
+      saveCart(); // Save to localStorage
+    }
+
+    function decreaseQuantity(id) {
+      const item = cart.find(item => item.id === id);
+      if (item) {
+        if (item.quantity > 1) item.quantity -= 1;
+        else cart = cart.filter(i => i.id !== id);
+        updateCartUI();
+        saveCart(); // Save to localStorage
+      }
+    }
+
+    function updateQuantity(id, quantity) {
+      const item = cart.find(item => item.id === id);
+      if (item) {
+        if (quantity > 0) item.quantity = quantity;
+        else cart = cart.filter(i => i.id !== id);
+        updateCartUI();
+        saveCart(); // Save to localStorage
+      }
+    }
+
+    // Cart Sidebar Controls
+    function openCart() {
+      document.getElementById('cartSidebar').classList.add('open');
+      document.getElementById('overlay').classList.add('open');
+    }
+
+    function closeCart() {
+      document.getElementById('cartSidebar').classList.remove('open');
+      document.getElementById('overlay').classList.remove('open');
+    }
+
+    // Scroll Animations
+    function handleScroll() {
+      const productCards = document.querySelectorAll('.product-card');
+      productCards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.8) {
+          setTimeout(() => card.classList.add('scrolled'), index * 100);
+        }
+      });
+    }
+
+    // Carousel Functionality
+    function initCarousel() {
+      const carouselImages = document.getElementById('carouselImages');
+      const images = carouselImages.querySelectorAll('img');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      let currentIndex = 0;
+
+      function showImage(index) {
+        const offset = -index * 100;
+        carouselImages.style.transform = `translateX(${offset}%)`;
+      }
+
+      prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+      });
+
+      nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+      });
+
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+      }, 5000);
+    }
+
+    // Initialize
+    window.onload = () => {
+      loadProducts();
+      initCarousel();
+      updateCartUI(); // Load cart from localStorage on page load
+      document.getElementById('cartIcon').addEventListener('click', openCart);
+      document.getElementById('closeCart').addEventListener('click', closeCart);
+      document.getElementById('overlay').addEventListener('click', closeCart);
+      window.addEventListener('scroll', handleScroll);
+      handleScroll();
+    };
+  </script>
+</body>
+</html>

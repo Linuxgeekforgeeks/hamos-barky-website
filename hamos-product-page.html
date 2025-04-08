@@ -3,44 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zanzibar Hamos Bakery</title>
+  <title>Zanzibar Hamos Bakery - Products</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body {
-      background-color: #fdf6e9; /* Light saffron */
+      font-family: 'Nunito', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #fff;
     }
 
-    .header {
-      background-color: #a63c06; /* Deep cinnamon */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #00a082;
       color: white;
-      padding: 1rem;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #008068;
+    }
+
+    /* Header */
+    header {
+      background-color: #ffc244;
+      padding:  Ascendancy15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
-    .header h1 {
-      font-size: 1.8rem;
+    .logo h1 {
+      color: #00a082;
+      font-size: 42px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
 
     .cart-icon {
       position: relative;
-      cursor: pointer;
       font-size: 1.5rem;
+      cursor: pointer;
     }
 
     .cart-count {
       position: absolute;
       top: -10px;
       right: -10px;
-      background-color: #d9534f; /* Spiced red */
+      background-color: #00a082;
       color: white;
       border-radius: 50%;
       width: 20px;
@@ -51,78 +91,71 @@
       font-size: 0.8rem;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+    /* Product Section */
+    .products {
+      padding: 50px 0;
     }
 
-    .product-heading {
+    .products h2 {
       text-align: center;
-      margin-bottom: 2rem;
-      color: #a63c06;
+      margin-bottom: 40px;
+      font-size: 32px;
+      color: #000;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: bolder;
     }
 
     .product-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 2rem;
+      gap: 30px;
     }
 
     .product-card {
       background-color: white;
       border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
-    .product-card:hover {
-      transform: translateY(-5px);
+    .product-card.scrolled {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .product-image {
-      height: 180px;
-      width: 100%;
+      width: 150px;
+      height: 150px;
+      margin: 15px auto;
       background-position: center;
       background-size: cover;
+      border: 3px solid #ffc244;
+      border-radius: 59% 41% 56% 44% / 30% 30% 70% 70%;
     }
 
     .product-info {
-      padding: 1rem;
+      padding: 15px;
     }
 
     .product-title {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      color: #333;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
     .product-description {
       color: #666;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
+      font-size: 14px;
+      margin-bottom: 15px;
     }
 
     .product-price {
       font-weight: bold;
-      color: #a63c06;
-      margin-bottom: 1rem;
-    }
-
-    .add-to-cart {
-      background-color: #a63c06;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      width: 100%;
-      transition: background-color 0.3s ease;
-    }
-
-    .add-to-cart:hover {
-      background-color: #7d2e04;
+      color: #00a082;
+      margin-bottom: 15px;
     }
 
     /* Cart Sidebar */
@@ -133,7 +166,7 @@
       width: 380px;
       height: 100vh;
       background-color: white;
-      box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
       transition: right 0.3s ease;
       z-index: 1000;
       overflow-y: auto;
@@ -144,7 +177,7 @@
     }
 
     .cart-header {
-      background-color: #a63c06;
+      background-color: #00a082;
       color: white;
       padding: 1rem;
       display: flex;
@@ -190,7 +223,7 @@
     }
 
     .cart-item-price {
-      color: #a63c06;
+      color: #00a082;
       margin-bottom: 0.5rem;
     }
 
@@ -202,7 +235,7 @@
     .quantity-btn {
       width: 25px;
       height: 25px;
-      background-color: #eee;
+      background-color: #e8f5f3;
       border: none;
       border-radius: 3px;
       cursor: pointer;
@@ -243,21 +276,9 @@
     }
 
     .checkout-btn {
-      background-color: #a63c06;
-      color: white;
-      border: none;
-      padding: 1rem;
       width: 90%;
       margin: 1rem auto;
       display: block;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .checkout-btn:hover {
-      background-color: #7d2e04;
     }
 
     .overlay {
@@ -266,7 +287,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.5);
+      background-color: rgba(0, 0, 0, 0.5);
       z-index: 999;
       display: none;
     }
@@ -274,25 +295,41 @@
     .overlay.open {
       display: block;
     }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>Zanzibar Hamos Bakery</h1>
-    <div class="cart-icon" id="cartIcon">
-      🛒
-      <span class="cart-count" id="cartCount">0</span>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="#"><img src="./hti-logo.webp"/></a>
+      </div>
+      <div class="header-actions">
+      
+        <div class="cart-icon" id="cartIcon">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
+      </div>
     </div>
-  </div>
-  
-  <div class="container">
-    <h2 class="product-heading">Our Fresh Baked Products</h2>
-    
-    <div class="product-grid" id="productGrid">
-      <!-- Products will be loaded here by JavaScript -->
+  </header>
+
+  <section class="products">
+    <div class="container">
+      <h2>Our Fresh Baked Products</h2>
+      <div class="product-grid" id="productGrid">
+        <!-- Products will be loaded here by JavaScript -->
+      </div>
     </div>
-  </div>
-  
+  </section>
+
   <div class="cart-sidebar" id="cartSidebar">
     <div class="cart-header">
       <h2>Your Cart</h2>
@@ -305,153 +342,85 @@
       <span>Total:</span>
       <span id="cartTotal">TSh 0</span>
     </div>
-    <button class="checkout-btn">Checkout</button>
+    <button class="checkout-btn btn">Checkout</button>
   </div>
-  
+
   <div class="overlay" id="overlay"></div>
-  
+
   <script>
-    // Sample products data
+    // Sample products data (unchanged)
     const products = [
-      {
-        id: 1,
-        name: 'Boflo (Swahili Bread)',
-        description: 'Fresh baked traditional Swahili bread, soft and fluffy.',
-        price: 1500,
-        image: '/api/placeholder/250/180'
-      },
-      {
-        id: 2,
-        name: 'Chapati',
-        description: 'Thin, round flatbread made with whole wheat flour.',
-        price: 800,
-        image: '/api/placeholder/250/180'
-      },
-      {
-        id: 3,
-        name: 'Mandazi',
-        description: 'Sweet, triangular East African donuts with a hint of cardamom.',
-        price: 500,
-        image: '/api/placeholder/250/180'
-      },
-      {
-        id: 4,
-        name: 'Mkate wa Sinia',
-        description: 'Soft, spongy bread baked in a special pan.',
-        price: 2000,
-        image: '/api/placeholder/250/180'
-      },
-      {
-        id: 5,
-        name: 'Coconut Bread',
-        description: 'Sweet bread with rich coconut flavor, perfect with tea.',
-        price: 1800,
-        image: '/api/placeholder/250/180'
-      },
-      {
-        id: 6,
-        name: 'Vitumbua',
-        description: 'Sweet rice pancake with coconut, a popular Zanzibar breakfast.',
-        price: 200,
-        image: '/api/placeholder/250/180'
-      }
+      { id: 1, name: 'Boflo (Swahili Bread)', description: 'Fresh baked traditional Swahili bread, soft and fluffy.', price: 1500, image: '/api/placeholder/250/180' },
+      { id: 2, name: 'Chapati', description: 'Thin, round flatbread made with whole wheat flour.', price: 800, image: '/api/placeholder/250/180' },
+      { id: 3, name: 'Mandazi', description: 'Sweet, triangular East African donuts with a hint of cardamom.', price: 500, image: '/api/placeholder/250/180' },
+      { id: 4, name: 'Mkate wa Sinia', description: 'Soft, spongy bread baked in a special pan.', price: 2000, image: '/api/placeholder/250/180' },
+      { id: 5, name: 'Coconut Bread', description: 'Sweet bread with rich coconut flavor, perfect with tea.', price: 1800, image: '/api/placeholder/250/180' },
+      { id: 6, name: 'Vitumbua', description: 'Sweet rice pancake with coconut, a popular Zanzibar breakfast.', price: 200, image: '/api/placeholder/250/180' }
     ];
 
-    // Cart array to store added items
     let cart = [];
 
-    // Load products onto the page
     function loadProducts() {
       const productGrid = document.getElementById('productGrid');
-      
       products.forEach(product => {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
-        
         productCard.innerHTML = `
           <div class="product-image" style="background-image: url(${product.image})"></div>
           <div class="product-info">
             <h3 class="product-title">${product.name}</h3>
             <p class="product-description">${product.description}</p>
             <p class="product-price">TSh ${product.price.toLocaleString()}</p>
-            <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+            <button class="btn add-to-cart" data-id="${product.id}">Add to Cart</button>
           </div>
         `;
-        
         productGrid.appendChild(productCard);
       });
-      
-      // Add event listeners for Add to Cart buttons
-      const addToCartButtons = document.querySelectorAll('.add-to-cart');
-      addToCartButtons.forEach(button => {
+
+      document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', function() {
-          const productId = parseInt(this.getAttribute('data-id'));
-          addToCart(productId);
+          addToCart(parseInt(this.getAttribute('data-id')));
         });
       });
     }
 
-    // Add product to cart
     function addToCart(productId) {
       const product = products.find(p => p.id === productId);
-      
-      // Check if product is already in cart
       const existingItem = cart.find(item => item.id === productId);
-      
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        cart.push({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          image: product.image,
-          quantity: 1
-        });
+        cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 });
       }
-      
-      // Update cart UI
       updateCartUI();
-      
-      // Show cart sidebar
       openCart();
     }
 
-    // Remove item from cart
     function removeFromCart(id) {
       cart = cart.filter(item => item.id !== id);
       updateCartUI();
     }
 
-    // Update cart UI
     function updateCartUI() {
       const cartItems = document.getElementById('cartItems');
       const cartCount = document.getElementById('cartCount');
       const cartTotal = document.getElementById('cartTotal');
-      
-      // Clear current cart items
       cartItems.innerHTML = '';
-      
-      // If cart is empty
       if (cart.length === 0) {
         cartItems.innerHTML = '<p style="text-align: center; color: #666;">No Items in Cart</p>';
         cartCount.textContent = '0';
         cartTotal.textContent = 'TSh 0';
         return;
       }
-      
-      // Add items to cart
+
       let total = 0;
       let itemCount = 0;
-      
       cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
         itemCount += item.quantity;
-        
         const cartItem = document.createElement('div');
         cartItem.className = 'cart-item';
-        
         cartItem.innerHTML = `
           <div class="cart-item-image" style="background-image: url(${item.image})"></div>
           <div class="cart-item-details">
@@ -465,102 +434,77 @@
           </div>
           <button class="remove-btn" data-id="${item.id}">Remove</button>
         `;
-        
         cartItems.appendChild(cartItem);
       });
-      
-      // Update cart count and total
+
       cartCount.textContent = itemCount;
       cartTotal.textContent = `TSh ${total.toLocaleString()}`;
-      
-      // Add event listeners for quantity buttons and remove buttons
       document.querySelectorAll('.decrease').forEach(button => {
-        button.addEventListener('click', function() {
-          const id = parseInt(this.getAttribute('data-id'));
-          decreaseQuantity(id);
-        });
+        button.addEventListener('click', () => decreaseQuantity(parseInt(button.getAttribute('data-id'))));
       });
-      
       document.querySelectorAll('.increase').forEach(button => {
-        button.addEventListener('click', function() {
-          const id = parseInt(this.getAttribute('data-id'));
-          increaseQuantity(id);
-        });
+        button.addEventListener('click', () => increaseQuantity(parseInt(button.getAttribute('data-id'))));
       });
-      
       document.querySelectorAll('.quantity-input').forEach(input => {
-        input.addEventListener('change', function() {
-          const id = parseInt(this.getAttribute('data-id'));
-          const quantity = parseInt(this.value);
-          updateQuantity(id, quantity);
-        });
+        input.addEventListener('change', () => updateQuantity(parseInt(input.getAttribute('data-id')), parseInt(input.value)));
       });
-      
       document.querySelectorAll('.remove-btn').forEach(button => {
-        button.addEventListener('click', function() {
-          const id = parseInt(this.getAttribute('data-id'));
-          removeFromCart(id);
-        });
+        button.addEventListener('click', () => removeFromCart(parseInt(button.getAttribute('data-id'))));
       });
     }
 
-    // Increase item quantity
     function increaseQuantity(id) {
       const item = cart.find(item => item.id === id);
-      if (item) {
-        item.quantity += 1;
-        updateCartUI();
-      }
+      if (item) item.quantity += 1;
+      updateCartUI();
     }
 
-    // Decrease item quantity
     function decreaseQuantity(id) {
       const item = cart.find(item => item.id === id);
       if (item) {
-        if (item.quantity > 1) {
-          item.quantity -= 1;
-        } else {
-          // Remove item if quantity becomes 0
-          cart = cart.filter(item => item.id !== id);
-        }
+        if (item.quantity > 1) item.quantity -= 1;
+        else cart = cart.filter(i => i.id !== id);
         updateCartUI();
       }
     }
 
-    // Update item quantity
     function updateQuantity(id, quantity) {
       const item = cart.find(item => item.id === id);
       if (item) {
-        if (quantity > 0) {
-          item.quantity = quantity;
-        } else {
-          // Remove item if quantity is invalid
-          cart = cart.filter(item => item.id !== id);
-        }
+        if (quantity > 0) item.quantity = quantity;
+        else cart = cart.filter(i => i.id !== id);
         updateCartUI();
       }
     }
 
-    // Open cart sidebar
     function openCart() {
       document.getElementById('cartSidebar').classList.add('open');
       document.getElementById('overlay').classList.add('open');
     }
 
-    // Close cart sidebar
     function closeCart() {
       document.getElementById('cartSidebar').classList.remove('open');
       document.getElementById('overlay').classList.remove('open');
     }
 
-    // Initialize the page
-    window.onload = function() {
+    // Scroll animations
+    function handleScroll() {
+      const productCards = document.querySelectorAll('.product-card');
+      productCards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.8) {
+          setTimeout(() => card.classList.add('scrolled'), index * 100);
+        }
+      });
+    }
+
+    window.onload = () => {
       loadProducts();
-      
-      // Add event listeners
       document.getElementById('cartIcon').addEventListener('click', openCart);
       document.getElementById('closeCart').addEventListener('click', closeCart);
       document.getElementById('overlay').addEventListener('click', closeCart);
+      window.addEventListener('scroll', handleScroll);
+      handleScroll(); // Initial check
     };
   </script>
 </body>
